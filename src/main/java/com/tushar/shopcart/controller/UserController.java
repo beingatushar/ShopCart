@@ -2,6 +2,7 @@ package com.tushar.shopcart.controller;
 
 import com.tushar.shopcart.dto.user.CreateUserDTO;
 import com.tushar.shopcart.dto.user.UpdateUserDTO;
+import com.tushar.shopcart.dto.user.UserDTO;
 import com.tushar.shopcart.entity.UserEntity;
 import com.tushar.shopcart.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,17 +22,17 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserEntity> createUser(@RequestBody @Valid CreateUserDTO user) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid CreateUserDTO user) {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserEntity> findUserById(@PathVariable Long userId) {
+    public ResponseEntity<UserDTO> findUserById(@PathVariable Long userId) {
         return new ResponseEntity<>(userService.findById(userId), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> findAllUsers() {
+    public ResponseEntity<List<UserDTO>> findAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long userId, @RequestBody @Valid UpdateUserDTO user) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody @Valid UpdateUserDTO user) {
         return new ResponseEntity<>(userService.updateUser(userId, user), HttpStatus.OK);
     }
 

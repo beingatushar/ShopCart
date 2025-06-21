@@ -1,6 +1,8 @@
 package com.tushar.shopcart.dto.user;
 
 import com.tushar.shopcart.entity.UserEntity;
+import com.tushar.shopcart.enums.user.UserRole;
+import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -38,17 +40,17 @@ public class CreateUserDTO {
     private String phoneNumber;
 
 
-    private UserEntity.UserStatus status;
-    private Set<UserEntity.UserRole> roles;
+    private UserStatus status;
+    private Set<UserRole> roles;
 
     // If you want to ensure default roles are set when none provided
-    public Set<UserEntity.UserRole> getRoles() {
+    public Set<UserRole> getRoles() {
         return (roles == null || roles.isEmpty()) ?
-                Set.of(UserEntity.UserRole.CUSTOMER) :
+                Set.of(UserRole.CUSTOMER) :
                 roles;
     }
 
-    public UserEntity.UserStatus getStatus() {
-        return status == null ? UserEntity.UserStatus.ACTIVE : status;
+    public UserStatus getStatus() {
+        return status == null ? UserStatus.ACTIVE : status;
     }
 }

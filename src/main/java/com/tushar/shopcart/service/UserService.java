@@ -2,20 +2,21 @@ package com.tushar.shopcart.service;
 
 import com.tushar.shopcart.dto.user.CreateUserDTO;
 import com.tushar.shopcart.dto.user.UpdateUserDTO;
+import com.tushar.shopcart.dto.user.UserDTO;
 import com.tushar.shopcart.entity.UserEntity;
 
 import java.util.List;
 
 public interface UserService {
-    UserEntity createUser(CreateUserDTO user);
+    UserDTO createUser(CreateUserDTO user);
 
-    UserEntity findById(Long userId);
+    UserDTO findById(Long userId);
 
-    UserEntity findUserByEmail(String email);
+    UserDTO findUserByEmail(String email);
 
-    List<UserEntity> findAllUsers();
+    List<UserDTO> findAllUsers();
 
-    UserEntity updateUser(Long userId, UpdateUserDTO user);
+    UserDTO updateUser(Long userId, UpdateUserDTO user);
 
     void deleteUser(Long userId);
 }

@@ -2,6 +2,7 @@ package com.tushar.shopcart.service.impl;
 
 import com.tushar.shopcart.dto.user.CreateUserDTO;
 import com.tushar.shopcart.dto.user.UpdateUserDTO;
+import com.tushar.shopcart.dto.user.UserDTO;
 import com.tushar.shopcart.entity.UserEntity;
 import com.tushar.shopcart.repository.UserRepository;
 import com.tushar.shopcart.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,32 +22,32 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public UserEntity createUser(CreateUserDTO user) {
+    public UserDTO createUser(CreateUserDTO user) {
         UserEntity createdUser = new UserEntity();
         modelMapper.map(user, createdUser);
-        return userRepository.save(createdUser);
+        return modelMapper.map(userRepository.save(createdUser), UserDTO.class);
     }
 
     @Override
-    public UserEntity findById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+    public UserDTO findById(Long userId) {
+        return modelMapper.map(userRepository.findById(userId).orElseThrow(EntityNotFoundException::new), UserDTO.class);
     }
 
     @Override
-    public UserEntity findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserDTO findUserByEmail(String email) {
+        return modelMapper.map(userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new),UserDTO.class);
     }
 
     @Override
-    public List<UserEntity> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> findAllUsers() {
+        return userRepository.findAll().stream().map(u -> modelMapper.map(u, UserDTO.class)).collect(Collectors.toList());
     }
 
     @Override
-    public UserEntity updateUser(Long userId, UpdateUserDTO user) {
+    public UserDTO updateUser(Long userId, UpdateUserDTO user) {
         UserEntity userToUpdate = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         modelMapper.map(user, userToUpdate);
-        return userRepository.save(userToUpdate);
+        return modelMapper.map(userRepository.save(userToUpdate), UserDTO.class);
     }
 
     @Override

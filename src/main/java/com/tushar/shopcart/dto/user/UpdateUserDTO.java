@@ -1,6 +1,7 @@
 package com.tushar.shopcart.dto.user;
 
-import com.tushar.shopcart.entity.UserEntity;
+import com.tushar.shopcart.enums.user.UserRole;
+import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -36,7 +37,7 @@ public class UpdateUserDTO {
             message = "Phone number must contain only digits (0-9)")
     private String phoneNumber;
 
-    private UserEntity.UserStatus status;
+    private UserStatus status;
 
-    private Set<UserEntity.UserRole> roles;
+    private Set<UserRole> roles;
 }
