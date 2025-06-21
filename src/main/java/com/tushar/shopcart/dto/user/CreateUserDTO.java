@@ -1,6 +1,5 @@
 package com.tushar.shopcart.dto.user;
 
-import com.tushar.shopcart.entity.UserEntity;
 import com.tushar.shopcart.enums.user.UserRole;
 import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.validation.constraints.Email;

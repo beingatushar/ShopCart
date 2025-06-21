@@ -1,5 +1,7 @@
 package com.tushar.shopcart.entity;
 
+import com.tushar.shopcart.enums.user.UserRole;
+import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -68,12 +70,4 @@ public class UserEntity {
 
     @Version
     private Integer version;
-
-    public enum UserStatus {
-        ACTIVE, INACTIVE, SUSPENDED, DELETED
-    }
-
-    public enum UserRole {
-        CUSTOMER, ADMIN, INVENTORY_MANAGER, CUSTOMER_SUPPORT, MARKETING
-    }
 }

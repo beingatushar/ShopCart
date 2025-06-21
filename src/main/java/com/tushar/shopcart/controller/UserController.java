@@ -3,7 +3,6 @@ package com.tushar.shopcart.controller;
 import com.tushar.shopcart.dto.user.CreateUserDTO;
 import com.tushar.shopcart.dto.user.UpdateUserDTO;
 import com.tushar.shopcart.dto.user.UserDTO;
-import com.tushar.shopcart.entity.UserEntity;
 import com.tushar.shopcart.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
