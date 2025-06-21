@@ -1,0 +1,75 @@
+package com.tushar.shopcart.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "product_reviews")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ProductReviewEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductEntity product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_item_id")
+    private OrderItemEntity orderItem; // To verify purchase
+
+    @Column(nullable = false)
+    private Integer rating; // 1-5
+
+    @Column(length = 1000)
+    private String reviewText;
+
+    @Column(nullable = false)
+    private Instant reviewDate;
+
+    @Column(nullable = false)
+    private Boolean isApproved = false;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewHelpfulVoteEntity> helpfulVotes = new ArrayList<>();
+}
+
+@Entity
+@Table(name = "review_helpful_votes")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+class ReviewHelpfulVoteEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id", nullable = false)
+    private ProductReviewEntity review;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @Column(nullable = false)
+    private Boolean isHelpful = true;
+
+    @Column(nullable = false)
+    private Instant votedAt;
+}
