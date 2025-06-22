@@ -5,16 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandDTO {
-    Instant createdAt;
-    Instant updatedAt;
-    private Long id;
+public class UpdateBrandDTO {
     private String name;
     private String description;
     private String logoUrl;
