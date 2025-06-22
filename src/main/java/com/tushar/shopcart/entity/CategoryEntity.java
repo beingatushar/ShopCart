@@ -1,5 +1,6 @@
 package com.tushar.shopcart.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,21 +33,22 @@ public class CategoryEntity {
     @Column(nullable = false, unique = true, length = 100)
     private String slug;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private CategoryEntity parentCategory;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "parent_id")
+//    private CategoryEntity parentCategory;
 
-    @OneToMany(mappedBy = "parentCategory")
-    private List<CategoryEntity> subCategories = new ArrayList<>();
+//    @OneToMany(mappedBy = "parentCategory")
+//    private List<CategoryEntity> subCategories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<ProductEntity> products = new ArrayList<>();
 
     @Column(length = 200)
     private String imageUrl;
 
-    @Column(nullable = false)
-    private Integer displayOrder = 0;
+//    @Column(nullable = false)
+//    private Integer displayOrder = 0;
 
     @Column(nullable = false)
     private Boolean isActive = true;
@@ -59,30 +61,3 @@ public class CategoryEntity {
     private Instant updatedAt;
 }
 
-@Entity
-@Table(name = "brands")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class BrandEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, unique = true, length = 100)
-    private String name;
-
-    @Column(length = 500)
-    private String description;
-
-    @Column(length = 200)
-    private String logoUrl;
-
-    @Column(nullable = false)
-    private Boolean isActive = true;
-
-    @OneToMany(mappedBy = "brand")
-    private List<ProductEntity> products = new ArrayList<>();
-}

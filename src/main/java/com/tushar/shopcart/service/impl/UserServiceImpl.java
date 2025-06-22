@@ -4,6 +4,7 @@ import com.tushar.shopcart.dto.user.CreateUserDTO;
 import com.tushar.shopcart.dto.user.UpdateUserDTO;
 import com.tushar.shopcart.dto.user.UserDTO;
 import com.tushar.shopcart.entity.UserEntity;
+import com.tushar.shopcart.enums.user.UserStatus;
 import com.tushar.shopcart.repository.UserRepository;
 import com.tushar.shopcart.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -53,6 +54,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long userId) {
         UserEntity userToDelete = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        userRepository.delete(userToDelete);
+        userToDelete.setStatus(UserStatus.DELETED);
     }
 }
