@@ -1,8 +1,11 @@
 package com.tushar.shopcart.entity;
 
+import com.tushar.shopcart.enums.payment.PaymentMethodType;
+import com.tushar.shopcart.enums.payment.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -14,6 +17,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class PaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,61 +51,4 @@ public class PaymentEntity {
     @Column(updatable = false)
     private Instant createdAt;
 
-    public enum PaymentMethodType {
-        CREDIT_CARD, DEBIT_CARD, PAYPAL,
-        BANK_TRANSFER, APPLE_PAY, GOOGLE_PAY,
-        CRYPTO, GIFT_CARD
-    }
-
-    public enum PaymentStatus {
-        PENDING, COMPLETED, FAILED,
-        REFUNDED, PARTIALLY_REFUNDED
-    }
-}
-
-@Entity
-@Table(name = "payment_methods")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class PaymentMethodEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private PaymentMethodType type;
-
-    @Column(nullable = false, length = 100)
-    private String displayName;
-
-    @Column(length = 100)
-    private String cardLastFour; // For card payments
-
-    @Column(length = 20)
-    private String cardType; // VISA, MASTERCARD, etc.
-
-    @Column(nullable = false)
-    private Boolean isDefault = false;
-
-    @Column(nullable = false)
-    private Instant createdAt;
-
-    @Column
-    private Instant expiresAt;
-
-    @Column(nullable = false)
-    private Boolean isActive = true;
-
-    public enum PaymentMethodType {
-        CREDIT_CARD, DEBIT_CARD, PAYPAL,
-        BANK_ACCOUNT, APPLE_PAY, GOOGLE_PAY
-    }
 }

@@ -1,7 +1,9 @@
 package com.tushar.shopcart.entity;
 
+import com.tushar.shopcart.enums.inventory.InventoryChangeType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
@@ -12,6 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class InventoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +50,7 @@ public class InventoryEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 class InventoryHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,8 +80,5 @@ class InventoryHistoryEntity {
     @JoinColumn(name = "changed_by_user_id")
     private UserEntity changedBy;
 
-    public enum InventoryChangeType {
-        PURCHASE, RETURN, ADJUSTMENT,
-        DAMAGE, LOSS, RESTOCK
-    }
+
 }

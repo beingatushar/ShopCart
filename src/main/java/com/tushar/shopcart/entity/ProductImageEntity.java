@@ -8,25 +8,27 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "user_addresses")
+@Table(name = "product_images")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class UserAddressEntity {
+public class ProductImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = false)
-    private AddressEntity address;
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductEntity product;
 
     @Column(nullable = false)
-    private Boolean isDefault;
+    private String imageUrl;
+
+    @Column(nullable = false)
+    private Integer displayOrder;
+
+    @Column(length = 100)
+    private String altText;
 }

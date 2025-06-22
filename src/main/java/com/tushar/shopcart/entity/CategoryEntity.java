@@ -42,7 +42,7 @@ public class CategoryEntity {
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<ProductEntity> products = new ArrayList<>();
+    private List<ProductEntity> products;
 
     @Column(length = 200)
     private String imageUrl;

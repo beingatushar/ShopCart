@@ -8,25 +8,24 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "user_addresses")
+@Table(name = "product_attributes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class UserAddressEntity {
+public class ProductAttributeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductEntity product;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = false)
-    private AddressEntity address;
+    @Column(nullable = false, length = 50)
+    private String name;
 
-    @Column(nullable = false)
-    private Boolean isDefault;
+    @Column(nullable = false, length = 200)
+    private String value;
 }

@@ -1,5 +1,7 @@
 package com.tushar.shopcart.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tushar.shopcart.enums.product.ProductStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -14,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "products")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,34 +40,26 @@ public class ProductEntity {
     @Column(nullable = false)
     private Integer stockQuantity;
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String sku;
-
-    @Column(nullable = false, unique = true, length = 50)
-    private String upc; // Universal Product Code
-
-    @Column(precision = 5, scale = 2)
-    private BigDecimal weight;
-
-    @Column(length = 20)
-    private String weightUnit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @JsonBackReference
     private CategoryEntity category;
 
+    @JsonBackReference(value = "brand-products")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private BrandEntity brand;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImageEntity> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductAttributeEntity> attributes = new ArrayList<>();
+    private List<ProductImageEntity> images;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductAttributeEntity> attributes;
 
     @OneToMany(mappedBy = "product")
-    private List<ProductReviewEntity> reviews = new ArrayList<>();
+    private List<ProductReviewEntity> reviews;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -78,54 +75,6 @@ public class ProductEntity {
     @Version
     private Integer version;
 
-    public enum ProductStatus {
-        ACTIVE, INACTIVE, OUT_OF_STOCK, DISCONTINUED
-    }
+
 }
 
-@Entity
-@Table(name = "product_images")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class ProductImageEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private ProductEntity product;
-
-    @Column(nullable = false)
-    private String imageUrl;
-
-    @Column(nullable = false)
-    private Integer displayOrder;
-
-    @Column(length = 100)
-    private String altText;
-}
-
-@Entity
-@Table(name = "product_attributes")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-class ProductAttributeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private ProductEntity product;
-
-    @Column(nullable = false, length = 50)
-    private String name;
-
-    @Column(nullable = false, length = 200)
-    private String value;
-}

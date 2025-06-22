@@ -1,5 +1,6 @@
 package com.tushar.shopcart.entity;
 
+import com.tushar.shopcart.enums.order.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -40,10 +41,10 @@ public class OrderEntity {
     private AddressEntity billingAddress;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItemEntity> items = new ArrayList<>();
+    private List<OrderItemEntity> items;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderStatusHistoryEntity> statusHistory = new ArrayList<>();
+    private List<OrderStatusHistoryEntity> statusHistory;
 
 //    @OneToMany(mappedBy = "order")
 //    private List<Payment> payments = new ArrayList<>();
@@ -80,11 +81,7 @@ public class OrderEntity {
     @Version
     private Integer version;
 
-    public enum OrderStatus {
-        PENDING, PROCESSING, SHIPPED, DELIVERED,
-        CANCELLED, REFUNDED, PARTIALLY_REFUNDED,
-        ON_HOLD, FAILED
-    }
+
 }
 
 @Entity
@@ -94,6 +91,7 @@ public class OrderEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 class OrderItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -133,6 +131,7 @@ class OrderItemEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 class OrderStatusHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -144,7 +143,7 @@ class OrderStatusHistoryEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private OrderEntity.OrderStatus status;
+    private OrderStatus status;
 
     @Column(length = 500)
     private String notes;

@@ -50,16 +50,16 @@ public class UserEntity {
     private Set<UserRole> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserAddressEntity> addresses = new ArrayList<>();
+    private List<UserAddressEntity> addresses;
 
     @OneToMany(mappedBy = "user")
-    private List<PaymentMethodEntity> paymentMethods = new ArrayList<>();
+    private List<PaymentMethodEntity> paymentMethods;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private ShoppingCartEntity shoppingCart;
 
     @OneToMany(mappedBy = "user")
-    private List<OrderEntity> orders = new ArrayList<>();
+    private List<OrderEntity> orders;
 
     @CreatedDate
     @Column(updatable = false)

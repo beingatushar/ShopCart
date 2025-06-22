@@ -2,6 +2,7 @@ package com.tushar.shopcart.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class DiscountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,14 +58,14 @@ public class DiscountEntity {
             name = "discount_applicable_products",
             joinColumns = @JoinColumn(name = "discount_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<ProductEntity> applicableProducts = new ArrayList<>();
+    private List<ProductEntity> applicableProducts;
 
     @ManyToMany
     @JoinTable(
             name = "discount_applicable_categories",
             joinColumns = @JoinColumn(name = "discount_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<CategoryEntity> applicableCategories = new ArrayList<>();
+    private List<CategoryEntity> applicableCategories;
 
     @Column(nullable = false)
     private Integer minOrderAmount;
@@ -83,6 +85,7 @@ public class DiscountEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 class CouponRedemptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
