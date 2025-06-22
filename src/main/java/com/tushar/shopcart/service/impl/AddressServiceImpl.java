@@ -4,7 +4,9 @@ import com.tushar.shopcart.dto.address.AddressDTO;
 import com.tushar.shopcart.dto.address.CreateAddressDTO;
 import com.tushar.shopcart.dto.address.UpdateAddressDTO;
 import com.tushar.shopcart.entity.AddressEntity;
+import com.tushar.shopcart.entity.UserEntity;
 import com.tushar.shopcart.repository.AddressRepository;
+import com.tushar.shopcart.repository.UserRepository;
 import com.tushar.shopcart.service.AddressService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceImpl implements AddressService {
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
