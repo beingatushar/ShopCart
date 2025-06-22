@@ -46,7 +46,14 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDTO createAddress(CreateAddressDTO addressDTO) {
-        AddressEntity addressEntity = modelMapper.map(addressDTO, AddressEntity.class);
-        return modelMapper.map(addressRepository.save(addressEntity), AddressDTO.class);
+        Long userId = addressDTO.getUserId();
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        AddressEntity addressEntity = new AddressEntity();
+        modelMapper.map(addressDTO, addressEntity);
+        addressEntity.setUser(userEntity);
+        AddressDTO createdAddressDTO = modelMapper.map(addressRepository.save(addressEntity), AddressDTO.class);
+        createdAddressDTO.setUserId(userId);
+        return createdAddressDTO;
+
     }
 }

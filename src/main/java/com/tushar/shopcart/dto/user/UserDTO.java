@@ -1,8 +1,8 @@
 package com.tushar.shopcart.dto.user;
 
+import com.tushar.shopcart.dto.address.AddressDTO;
 import com.tushar.shopcart.entity.OrderEntity;
 import com.tushar.shopcart.entity.ShoppingCartEntity;
-import com.tushar.shopcart.entity.UserAddressEntity;
 import com.tushar.shopcart.enums.user.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,13 +27,13 @@ public class UserDTO {
     private String phoneNumber;
     private Set<UserRole> roles;
 
-    private List<UserAddressEntity> addresses = new ArrayList<>();
+    private List<AddressDTO> addresses;
 
 //    private List<PaymentMethodEntity> paymentMethods = new ArrayList<>();
 
     private ShoppingCartEntity shoppingCart;
 
-    private List<OrderEntity> orders = new ArrayList<>();
+    private List<OrderEntity> orders;
 
     private Instant createdAt;
 

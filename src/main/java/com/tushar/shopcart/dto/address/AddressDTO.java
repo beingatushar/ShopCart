@@ -12,6 +12,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressDTO {
+    private Long userId;
     private Long id;
     private String street;
     private String city;

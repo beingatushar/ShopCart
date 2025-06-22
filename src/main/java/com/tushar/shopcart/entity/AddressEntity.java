@@ -1,10 +1,7 @@
 package com.tushar.shopcart.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,9 +11,9 @@ import java.time.Instant;
 @Entity
 @Table(name = "addresses")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class AddressEntity {
     @Id
@@ -42,10 +39,17 @@ public class AddressEntity {
     private String landmark;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isPrimary = false;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private UserEntity user;
+
     @Column(length = 50)
-    private String addressType; // HOME, WORK, etc.
+    private String addressType;
 
     @CreatedDate
     @Column(updatable = false)
