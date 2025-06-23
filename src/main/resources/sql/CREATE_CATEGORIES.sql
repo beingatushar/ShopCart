@@ -1,0 +1,23 @@
+use shopcart_db;
+INSERT INTO categories (name, slug, description, image_url, is_active)
+VALUES ('Adidas', 'adidas', 'Brand category for Adidas products', NULL, true),
+       ('Apple', 'apple', 'Brand category for Apple products', NULL, true),
+       ('Bosch', 'bosch', 'Brand category for Bosch products', NULL, true),
+       ('Bose', 'bose', 'Brand category for Bose products', NULL, true),
+       ('Dyson', 'dyson', 'Brand category for Dyson products', NULL, true),
+       ('GoPro', 'gopro', 'Brand category for GoPro products', NULL, true),
+       ('Intel', 'intel', 'Brand category for Intel products', NULL, true),
+       ('KitchenAid', 'kitchenaid', 'Brand category for KitchenAid products', NULL, true),
+       ('Levi\'s', 'levis', 'Brand category for Levi\'s products', NULL, true),
+       ('LG', 'lg', 'Brand category for LG products', NULL, true),
+       ('Logitech', 'logitech', 'Brand category for Logitech products', NULL, true),
+       ('Nike', 'nike', 'Brand category for Nike products', NULL, true),
+       ('Nikon', 'nikon', 'Brand category for Nikon products', NULL, true),
+       ('NVIDIA', 'nvidia', 'Brand category for NVIDIA products', NULL, true),
+       ('Philips', 'philips', 'Brand category for Philips products', NULL, true),
+       ('Samsung', 'samsung', 'Brand category for Samsung products', NULL, true),
+       ('Sony', 'sony', 'Brand category for Sony products', NULL, true),
+       ('Tesla', 'tesla', 'Brand category for Tesla products', NULL, true),
+       ('Wilson', 'wilson', 'Brand category for Wilson products', NULL, true),
+       ('Yeti', 'yeti', 'Brand category for Yeti products', NULL, true),
+       ('Zara', 'zara', 'Brand category for Zara products', NULL, true);
