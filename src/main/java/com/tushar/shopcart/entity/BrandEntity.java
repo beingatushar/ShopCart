@@ -35,6 +35,7 @@ public class BrandEntity {
     private String logoUrl;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
     @JsonManagedReference(value = "brand-products")
     @OneToMany(mappedBy = "brand")
