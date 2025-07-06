@@ -25,15 +25,8 @@ public class UserDTO {
     private String email;
 
     private String phoneNumber;
+
     private Set<UserRole> roles;
-
-    private List<AddressDTO> addresses;
-
-//    private List<PaymentMethodEntity> paymentMethods = new ArrayList<>();
-
-    private ShoppingCartEntity shoppingCart;
-
-    private List<OrderEntity> orders;
 
     private Instant createdAt;
 
