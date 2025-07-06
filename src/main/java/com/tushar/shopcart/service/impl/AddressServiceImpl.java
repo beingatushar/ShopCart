@@ -11,6 +11,7 @@ import com.tushar.shopcart.service.AddressService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,16 +52,21 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.delete(addressEntity);
     }
 
+    @Transactional
     @Override
     public AddressDTO createAddress(CreateAddressDTO addressDTO) {
         Long userId = addressDTO.getUserId();
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        AddressEntity addressEntity = new AddressEntity();
-        modelMapper.map(addressDTO, addressEntity);
-        addressEntity.setUser(userEntity);
-        AddressDTO createdAddressDTO = modelMapper.map(addressRepository.save(addressEntity), AddressDTO.class);
-        createdAddressDTO.setUserId(userId);
-        return createdAddressDTO;
+        UserEntity user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        AddressEntity address = AddressEntity.builder()
+                .street(addressDTO.getStreet())
+                .city(addressDTO.getCity())
+                .state(addressDTO.getState())
+                .postalCode(addressDTO.getPostalCode())
+                .country(addressDTO.getCountry())
+                .isPrimary(addressDTO.getIsPrimary())
+                .user(user)
+                .build();
+        return modelMapper.map(addressRepository.save(addressRepository.save(address)), AddressDTO.class);
 
     }
 }
