@@ -18,8 +18,6 @@ public class CategoryDTO {
 
     private String description;
 
-    private String slug;
-
     private String imageUrl;
 
     private Boolean isActive;

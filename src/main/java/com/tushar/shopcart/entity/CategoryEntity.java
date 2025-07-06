@@ -29,9 +29,6 @@ public class CategoryEntity {
     @Column(length = 500)
     private String description;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String slug;
-
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "parent_id")
 //    private CategoryEntity parentCategory;
