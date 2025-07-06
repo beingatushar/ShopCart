@@ -1,6 +1,5 @@
 package com.tushar.shopcart.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tushar.shopcart.enums.product.ProductStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,25 +38,21 @@ public class ProductEntity {
     @Column(nullable = false)
     private Integer stockQuantity;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    @JsonBackReference
     private CategoryEntity category;
 
-    @JsonBackReference(value = "brand-products")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private BrandEntity brand;
 
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProductImageEntity> images;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProductAttributeEntity> attributes;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ProductReviewEntity> reviews;
 
     @Enumerated(EnumType.STRING)
@@ -74,4 +69,5 @@ public class ProductEntity {
     @Version
     private Long version;
 }
+
 

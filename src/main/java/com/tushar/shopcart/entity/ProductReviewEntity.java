@@ -1,7 +1,11 @@
 package com.tushar.shopcart.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,8 +14,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "product_reviews")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,26 +24,21 @@ public class ProductReviewEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 1000)
+    private String comment;
+
+    @Column(nullable = false)
+    private Integer rating;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
     private ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private UserEntity user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_item_id")
-    private OrderItemEntity orderItem; // To verify purchase
-
-    @Column(nullable = false)
-    private Integer rating; // 1-5
-
-    @Column(length = 1000)
-    private String reviewText;
-
-    @Column(nullable = false)
-    private Boolean isApproved = false;
 
     @CreatedDate
     @Column(updatable = false)

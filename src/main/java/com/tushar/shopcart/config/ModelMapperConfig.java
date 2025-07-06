@@ -13,6 +13,7 @@ public class ModelMapperConfig {
 
         modelMapper.getConfiguration()
                 .setSkipNullEnabled(true)
+                .setFieldMatchingEnabled(true)
                 .setAmbiguityIgnored(true);
 
         return modelMapper;

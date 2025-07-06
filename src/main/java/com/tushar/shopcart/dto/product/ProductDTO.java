@@ -1,9 +1,9 @@
 package com.tushar.shopcart.dto.product;
 
-import com.tushar.shopcart.entity.ProductAttributeEntity;
-import com.tushar.shopcart.entity.ProductImageEntity;
-import com.tushar.shopcart.entity.ProductReviewEntity;
-import com.tushar.shopcart.enums.product.ProductStatus;
+import com.tushar.shopcart.dto.brand.BrandDTO;
+import com.tushar.shopcart.dto.category.CategoryDTO;
+import com.tushar.shopcart.dto.product.image.ProductImageDTO;
+import com.tushar.shopcart.dto.product.review.ProductReviewDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,12 +23,13 @@ public class ProductDTO {
     private String description;
     private BigDecimal price;
     private Integer stockQuantity;
-    private Long categoryId;
-    private Long brandId;
-    private List<ProductImageEntity> images;
-    private List<ProductAttributeEntity> attributes;
-    private List<ProductReviewEntity> reviews;
-    private ProductStatus status;
+    private String status;
     private Instant createdAt;
     private Instant updatedAt;
+    private CategoryDTO category;
+    private BrandDTO brand;
+
+    private List<ProductImageDTO> images;
+    private List<ProductAttributeDTO> attributes;
+    private List<ProductReviewDTO> reviews;
 }

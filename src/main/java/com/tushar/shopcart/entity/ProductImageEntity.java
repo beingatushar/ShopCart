@@ -25,17 +25,16 @@ public class ProductImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private ProductEntity product;
-
-
     @Column(nullable = false)
     private String imageUrl;
 
     @Column(length = 100)
     private String altText;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference // prevents infinite recursion during serialization
+    private ProductEntity product;
 
     @CreatedDate
     @Column(updatable = false)
@@ -47,3 +46,4 @@ public class ProductImageEntity {
     @Version
     private Long version;
 }
+

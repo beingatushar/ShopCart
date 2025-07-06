@@ -1,5 +1,6 @@
 package com.tushar.shopcart.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,15 +24,16 @@ public class ProductAttributeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private ProductEntity product;
-
     @Column(nullable = false, length = 50)
     private String name;
 
     @Column(nullable = false, length = 200)
     private String value;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
+    private ProductEntity product;
 
     @CreatedDate
     @Column(updatable = false)
@@ -43,3 +45,4 @@ public class ProductAttributeEntity {
     @Version
     private Long version;
 }
+
