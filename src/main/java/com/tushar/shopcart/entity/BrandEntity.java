@@ -1,6 +1,5 @@
 package com.tushar.shopcart.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +10,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
 @Table(name = "brands")
@@ -44,4 +42,7 @@ public class BrandEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Long version;
 }

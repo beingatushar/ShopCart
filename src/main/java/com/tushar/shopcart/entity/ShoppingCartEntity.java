@@ -56,6 +56,9 @@ public class ShoppingCartEntity {
     @LastModifiedDate
     private Instant updatedAt;
 
+    @Version
+    private Long version;
+
     public void calculateTotals() {
         this.subtotal = items.stream()
                 .map(CartItemEntity::getTotalPrice)
@@ -112,6 +115,9 @@ class CartItemEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Long version;
 
     @PrePersist
     @PreUpdate

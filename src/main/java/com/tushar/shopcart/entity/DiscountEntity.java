@@ -52,6 +52,9 @@ public class DiscountEntity {
     @Column(nullable = false)
     private Boolean appliesToAllProducts = false;
 
+    @Version
+    private Long version;
+
     @ManyToMany
     @JoinTable(
             name = "discount_applicable_products",
@@ -104,4 +107,7 @@ class CouponRedemptionEntity {
 
     @Column(nullable = false)
     private Instant redemptionDate;
+
+    @Version
+    private Long version;
 }

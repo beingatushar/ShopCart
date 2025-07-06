@@ -55,5 +55,8 @@ public class CategoryEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Long version;
 }
 

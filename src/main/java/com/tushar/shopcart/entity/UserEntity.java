@@ -3,15 +3,16 @@ package com.tushar.shopcart.entity;
 import com.tushar.shopcart.enums.user.UserRole;
 import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -60,4 +61,7 @@ public class UserEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Long version;
 }

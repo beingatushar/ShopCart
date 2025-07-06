@@ -51,4 +51,7 @@ public class PaymentEntity {
     @Column(updatable = false)
     private Instant createdAt;
 
+    @Version
+    private Long version;
+
 }

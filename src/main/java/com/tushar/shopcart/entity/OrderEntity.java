@@ -76,6 +76,9 @@ public class OrderEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Long version;
 }
 
 @Entity
@@ -116,6 +119,9 @@ class OrderItemEntity {
 
     @Column(length = 100)
     private String productNameAtPurchase; // Snapshot of product name at time of order
+
+    @Version
+    private Long version;
 }
 
 @Entity
@@ -148,4 +154,7 @@ class OrderStatusHistoryEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "changed_by_user_id")
     private UserEntity changedBy;
+
+    @Version
+    private Long version;
 }

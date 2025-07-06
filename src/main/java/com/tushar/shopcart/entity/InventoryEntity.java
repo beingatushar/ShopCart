@@ -38,6 +38,9 @@ public class InventoryEntity {
 
     @Column(nullable = false)
     private Instant lastStockUpdate;
+
+    @Version
+    private Long version;
 }
 
 @Entity
@@ -77,5 +80,6 @@ class InventoryHistoryEntity {
     @JoinColumn(name = "changed_by_user_id")
     private UserEntity changedBy;
 
-
+    @Version
+    private Long version;
 }

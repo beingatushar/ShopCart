@@ -49,6 +49,9 @@ public class ProductReviewEntity {
     @LastModifiedDate
     private Instant updatedAt;
 
+    @Version
+    private Long version;
+
 //    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 //    private List<ReviewHelpfulVoteEntity> helpfulVotes = new ArrayList<>();
 }

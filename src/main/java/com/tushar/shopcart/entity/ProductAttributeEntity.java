@@ -39,4 +39,7 @@ public class ProductAttributeEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Long version;
 }

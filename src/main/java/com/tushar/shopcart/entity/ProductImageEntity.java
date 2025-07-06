@@ -43,4 +43,7 @@ public class ProductImageEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    @Version
+    private Long version;
 }

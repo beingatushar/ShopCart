@@ -48,4 +48,7 @@ class PaymentMethodEntity {
 
     @Column(nullable = false)
     private Boolean isActive = true;
+
+    @Version
+    private Long version;
 }
