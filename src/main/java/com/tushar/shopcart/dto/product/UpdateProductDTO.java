@@ -31,5 +31,4 @@ public class UpdateProductDTO {
     private ProductStatus status = ProductStatus.ACTIVE;
     private Instant createdAt;
     private Instant updatedAt;
-    private Integer version;
 }

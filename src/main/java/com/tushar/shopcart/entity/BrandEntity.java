@@ -47,7 +47,4 @@ public class BrandEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
-
-    @Version
-    private Integer version;
 }

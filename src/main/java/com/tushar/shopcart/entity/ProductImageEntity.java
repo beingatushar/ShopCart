@@ -7,7 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "product_images")
@@ -32,4 +36,11 @@ public class ProductImageEntity {
 
     @Column(length = 100)
     private String altText;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
 }

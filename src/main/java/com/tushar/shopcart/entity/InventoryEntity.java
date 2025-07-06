@@ -38,9 +38,6 @@ public class InventoryEntity {
 
     @Column(nullable = false)
     private Instant lastStockUpdate;
-
-    @Version
-    private Integer version;
 }
 
 @Entity

@@ -83,7 +83,4 @@ public class UserEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
-
-    @Version
-    private Integer version;
 }

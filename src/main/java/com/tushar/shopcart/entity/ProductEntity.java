@@ -70,10 +70,5 @@ public class ProductEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
-
-    @Version
-    private Integer version;
-
-
 }
 

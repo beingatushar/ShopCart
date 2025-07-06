@@ -76,11 +76,6 @@ public class OrderEntity {
 
     @LastModifiedDate
     private Instant updatedAt;
-
-    @Version
-    private Integer version;
-
-
 }
 
 @Entity

@@ -110,6 +110,9 @@ class CartItemEntity {
     @Column(updatable = false)
     private Instant createdAt;
 
+    @LastModifiedDate
+    private Instant updatedAt;
+
     @PrePersist
     @PreUpdate
     private void calculateTotalPrice() {
