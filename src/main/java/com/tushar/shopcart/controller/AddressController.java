@@ -5,7 +5,6 @@ import com.tushar.shopcart.dto.address.CreateAddressDTO;
 import com.tushar.shopcart.dto.address.UpdateAddressDTO;
 import com.tushar.shopcart.service.AddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +15,12 @@ import java.util.List;
 @RequestMapping("/addresses")
 @Tag(name = "Address Management", description = "Endpoints for managing addresses")
 public class AddressController {
-    @Autowired
+    final
     AddressService addressService;
+
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
     @GetMapping
     ResponseEntity<List<AddressDTO>> findAll() {

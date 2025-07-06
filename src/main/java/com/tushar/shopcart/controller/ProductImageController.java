@@ -6,7 +6,6 @@ import com.tushar.shopcart.dto.product.image.UpdateProductImageDTO;
 import com.tushar.shopcart.service.ProductImageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,11 @@ import java.util.List;
 @Tag(name = "Product Image Management", description = "Endpoints for managing product images")
 public class ProductImageController {
 
-    @Autowired
-    private ProductImageService productImageService;
+    private final ProductImageService productImageService;
+
+    public ProductImageController(ProductImageService productImageService) {
+        this.productImageService = productImageService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ProductImageDTO>> fetchAllProductImages() {

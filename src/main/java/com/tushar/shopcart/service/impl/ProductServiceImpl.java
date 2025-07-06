@@ -13,7 +13,6 @@ import com.tushar.shopcart.repository.ProductRepository;
 import com.tushar.shopcart.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +21,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
+    final
     ModelMapper modelMapper;
-    @Autowired
+    final
     BrandRepository brandRepository;
-    @Autowired
+    final
     CategoryRepository categoryRepository;
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ModelMapper modelMapper, BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository) {
+        this.modelMapper = modelMapper;
+        this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
+    }
 
     @Override
     public List<ProductDTO> fetchAllProducts() {

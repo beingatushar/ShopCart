@@ -7,7 +7,6 @@ import com.tushar.shopcart.dto.product.UpdateProductDTO;
 import com.tushar.shopcart.service.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,11 @@ import java.util.List;
 @RequestMapping("/products")
 @Tag(name = "Product Management", description = "Endpoints for managing products")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> fetchAllProducts() {

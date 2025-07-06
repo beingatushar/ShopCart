@@ -9,7 +9,6 @@ import com.tushar.shopcart.service.BrandService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class BrandServiceImpl implements BrandService {
-    @Autowired
+    final
     BrandRepository brandRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public BrandServiceImpl(BrandRepository brandRepository, ModelMapper modelMapper) {
+        this.brandRepository = brandRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public List<BrandDTO> findAll() {

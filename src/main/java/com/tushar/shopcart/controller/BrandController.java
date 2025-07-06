@@ -5,7 +5,6 @@ import com.tushar.shopcart.dto.brand.CreateBrandDTO;
 import com.tushar.shopcart.dto.brand.UpdateBrandDTO;
 import com.tushar.shopcart.service.BrandService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +15,12 @@ import java.util.List;
 @RequestMapping("/brands")
 @Tag(name = "Brand Management", description = "Endpoints for managing brands")
 public class BrandController {
-    @Autowired
+    final
     BrandService brandService;
+
+    public BrandController(BrandService brandService) {
+        this.brandService = brandService;
+    }
 
     @GetMapping
     ResponseEntity<List<BrandDTO>> getAllBrands() {

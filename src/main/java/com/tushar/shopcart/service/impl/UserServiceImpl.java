@@ -9,7 +9,6 @@ import com.tushar.shopcart.repository.UserRepository;
 import com.tushar.shopcart.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+    final
     ModelMapper modelMapper;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository) {
+        this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDTO createUser(CreateUserDTO user) {

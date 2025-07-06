@@ -10,7 +10,6 @@ import com.tushar.shopcart.repository.ProductRepository;
 import com.tushar.shopcart.service.ProductImageService;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +19,17 @@ import java.util.stream.Collectors;
 @Service
 public class ProductImageServiceImpl implements ProductImageService {
 
-    @Autowired
-    private ProductImageRepository productImageRepository;
+    private final ProductImageRepository productImageRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public ProductImageServiceImpl(ProductImageRepository productImageRepository, ProductRepository productRepository, ModelMapper modelMapper) {
+        this.productImageRepository = productImageRepository;
+        this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     @Transactional(readOnly = true)

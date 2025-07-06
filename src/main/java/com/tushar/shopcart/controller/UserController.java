@@ -6,7 +6,6 @@ import com.tushar.shopcart.dto.user.UserDTO;
 import com.tushar.shopcart.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +16,12 @@ import java.util.List;
 @RequestMapping("/users")
 @Tag(name = "User Management", description = "Endpoints for managing users")
 public class UserController {
-    @Autowired
+    final
     UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody @Valid CreateUserDTO user) {
