@@ -2,6 +2,7 @@ package com.tushar.shopcart.dto.product;
 
 import com.tushar.shopcart.dto.brand.BrandDTO;
 import com.tushar.shopcart.dto.category.CategoryDTO;
+import com.tushar.shopcart.dto.product.attribute.ProductAttributeDTO;
 import com.tushar.shopcart.dto.product.image.ProductImageDTO;
 import com.tushar.shopcart.dto.product.review.ProductReviewDTO;
 import lombok.AllArgsConstructor;

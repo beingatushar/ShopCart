@@ -1,6 +1,7 @@
 # 🛒 ShopCart Backend API
 
-A RESTful backend service for a shopping platform, built using **Spring Boot**, **JPA**, and **OpenAPI 3.1**. This project provides APIs for managing products, users, brands, categories, addresses, and product images.
+A RESTful backend service for a shopping platform, built using **Spring Boot**, **JPA**, and **OpenAPI 3.1**. This
+project provides APIs for managing products, users, brands, categories, addresses, and product images.
 
 ---
 
@@ -37,6 +38,7 @@ Base URL: `http://localhost:8081/api`
 ## 📚 Available Endpoints
 
 ### 🔹 Address Management
+
 ```
 GET     /addresses
 GET     /addresses/{addressId}
@@ -46,6 +48,7 @@ DELETE  /addresses/{addressId}
 ```
 
 ### 🔹 Category Management
+
 ```
 GET     /categories
 GET     /categories/{categoryName}
@@ -55,6 +58,7 @@ DELETE  /categories/{categoryId}
 ```
 
 ### 🔹 Product Management
+
 ```
 GET     /products
 GET     /products/{productId}
@@ -64,6 +68,7 @@ DELETE  /products/{productId}
 ```
 
 ### 🔹 Product Image Management
+
 ```
 GET     /product-images
 GET     /product-images/{productImageId}
@@ -74,6 +79,7 @@ DELETE  /product-images/{productImageId}
 ```
 
 ### 🔹 User Management
+
 ```
 GET     /users
 GET     /users/{userId}
@@ -83,6 +89,7 @@ DELETE  /users/{userId}
 ```
 
 ### 🔹 Brand Management
+
 ```
 GET     /brands
 GET     /brands/{brandName}

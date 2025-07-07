@@ -1,5 +1,6 @@
 package com.tushar.shopcart.dto.product;
 
+import com.tushar.shopcart.dto.product.attribute.ProductAttributeDTO;
 import com.tushar.shopcart.dto.product.image.ProductImageDTO;
 import com.tushar.shopcart.enums.product.ProductStatus;
 import lombok.AllArgsConstructor;

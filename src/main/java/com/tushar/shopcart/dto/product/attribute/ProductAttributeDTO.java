@@ -1,4 +1,4 @@
-package com.tushar.shopcart.dto.product;
+package com.tushar.shopcart.dto.product.attribute;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

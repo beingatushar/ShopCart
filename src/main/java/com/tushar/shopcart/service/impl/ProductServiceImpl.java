@@ -1,9 +1,9 @@
 package com.tushar.shopcart.service.impl;
 
 import com.tushar.shopcart.dto.product.CreateProductDTO;
-import com.tushar.shopcart.dto.product.ProductAttributeDTO;
 import com.tushar.shopcart.dto.product.ProductDTO;
 import com.tushar.shopcart.dto.product.UpdateProductDTO;
+import com.tushar.shopcart.dto.product.attribute.ProductAttributeDTO;
 import com.tushar.shopcart.dto.product.image.ProductImageDTO;
 import com.tushar.shopcart.dto.product.review.ProductReviewDTO;
 import com.tushar.shopcart.entity.*;
