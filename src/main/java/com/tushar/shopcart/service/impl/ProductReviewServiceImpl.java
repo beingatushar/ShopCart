@@ -3,7 +3,6 @@ package com.tushar.shopcart.service.impl;
 import com.tushar.shopcart.dto.product.review.CreateProductReviewDTO;
 import com.tushar.shopcart.dto.product.review.ProductReviewDTO;
 import com.tushar.shopcart.dto.product.review.UpdateProductReviewDTO;
-import com.tushar.shopcart.dto.user.UserDTO;
 import com.tushar.shopcart.entity.ProductEntity;
 import com.tushar.shopcart.entity.ProductReviewEntity;
 import com.tushar.shopcart.entity.UserEntity;
@@ -11,8 +10,8 @@ import com.tushar.shopcart.repository.ProductRepository;
 import com.tushar.shopcart.repository.ProductReviewRepository;
 import com.tushar.shopcart.repository.UserRepository;
 import com.tushar.shopcart.service.ProductReviewService;
+import com.tushar.shopcart.utils.ModelMapper;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +19,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class ProductReviewServiceImpl implements ProductReviewService {
-    private final ProductReviewRepository productReviewRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ProductRepository productRepository;
 
-    public ProductReviewServiceImpl(ProductReviewRepository productReviewRepository) {
+    private final ProductReviewRepository productReviewRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+    private final ModelMapper modelMapper;
+
+    public ProductReviewServiceImpl(ProductReviewRepository productReviewRepository,
+                                    UserRepository userRepository,
+                                    ProductRepository productRepository,
+                                    ModelMapper modelMapper) {
         this.productReviewRepository = productReviewRepository;
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class ProductReviewServiceImpl implements ProductReviewService {
     public List<ProductReviewDTO> findAllProductReviews() {
         return productReviewRepository.findAll()
                 .stream()
-                .map(this::convertToDTO)
+                .map(modelMapper::mapToProductReviewDTO)
                 .collect(Collectors.toList());
     }
 
@@ -46,73 +50,70 @@ public class ProductReviewServiceImpl implements ProductReviewService {
     public ProductReviewDTO getProductReviewById(Long productReviewId) {
         ProductReviewEntity entity = productReviewRepository.findById(productReviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Product review not found with id: " + productReviewId));
-        return convertToDTO(entity);
+        return modelMapper.mapToProductReviewDTO(entity);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<ProductReviewDTO> getProductReviewsByUserId(Long userId) {
-        return productReviewRepository.getProductReviewsByUserId(userId)
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User not found with id: " + userId);
+        }
+
+        return productReviewRepository.findByUserId(userId)
                 .stream()
-                .map(this::convertToDTO)
+                .map(modelMapper::mapToProductReviewDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<ProductReviewDTO> getProductReviewsByProductId(Long productId) {
-        return productReviewRepository.getProductReviewsByProductId(productId)
+        if (!productRepository.existsById(productId)) {
+            throw new EntityNotFoundException("Product not found with id: " + productId);
+        }
+
+        return productReviewRepository.findByProductId(productId)
                 .stream()
-                .map(this::convertToDTO)
+                .map(modelMapper::mapToProductReviewDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public ProductReviewDTO createProductReview(CreateProductReviewDTO productReviewDTO) {
-        ProductEntity product = productRepository.findById(productReviewDTO.getProductId()).orElseThrow(EntityNotFoundException::new);
-        UserEntity user = userRepository.findById(productReviewDTO.getUserId()).orElseThrow(EntityNotFoundException::new);
-        ProductReviewEntity entity =
-                ProductReviewEntity
-                        .builder()
-                        .comment(productReviewDTO.getComment())
-                        .rating(productReviewDTO.getRating())
-                        .product(product)
-                        .user(user)
-                        .build();
+        ProductEntity product = productRepository.findById(productReviewDTO.getProductId())
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productReviewDTO.getProductId()));
+
+        UserEntity user = userRepository.findById(productReviewDTO.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + productReviewDTO.getUserId()));
+
+        ProductReviewEntity entity = modelMapper.mapToProductReviewEntity(productReviewDTO);
+        entity.setProduct(product);
+        entity.setUser(user);
+
         ProductReviewEntity savedEntity = productReviewRepository.save(entity);
-        return convertToDTO(savedEntity);
+        return modelMapper.mapToProductReviewDTO(savedEntity);
     }
 
     @Override
+    @Transactional
     public ProductReviewDTO updateProductReview(Long productReviewId, UpdateProductReviewDTO productReviewDTO) {
         ProductReviewEntity entity = productReviewRepository.findById(productReviewId)
                 .orElseThrow(() -> new EntityNotFoundException("Product review not found with id: " + productReviewId));
 
-        entity.setComment(productReviewDTO.getComment());
-        entity.setRating(productReviewDTO.getRating());
-
+        modelMapper.updateProductReviewEntity(productReviewDTO, entity);
         ProductReviewEntity updatedEntity = productReviewRepository.save(entity);
-        return convertToDTO(updatedEntity);
+
+        return modelMapper.mapToProductReviewDTO(updatedEntity);
     }
 
     @Override
+    @Transactional
     public void deleteProductReviewById(Long productReviewId) {
         if (!productReviewRepository.existsById(productReviewId)) {
             throw new EntityNotFoundException("Product review not found with id: " + productReviewId);
         }
         productReviewRepository.deleteById(productReviewId);
-    }
-
-    private ProductReviewDTO convertToDTO(ProductReviewEntity entity) {
-        return ProductReviewDTO.builder()
-                .id(entity.getId())
-                .comment(entity.getComment())
-                .rating(entity.getRating())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .user(UserDTO.builder()
-                        .id(entity.getUser().getId())
-                        .build())
-                .build();
     }
 }

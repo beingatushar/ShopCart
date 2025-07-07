@@ -47,6 +47,7 @@ public class CategoryEntity {
 //    private Integer displayOrder = 0;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
     @CreatedDate

@@ -8,8 +8,8 @@ import com.tushar.shopcart.entity.UserEntity;
 import com.tushar.shopcart.repository.AddressRepository;
 import com.tushar.shopcart.repository.UserRepository;
 import com.tushar.shopcart.service.AddressService;
+import com.tushar.shopcart.utils.ModelMapper;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +18,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceImpl implements AddressService {
-    final
-    UserRepository userRepository;
+    private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final ModelMapper modelMapper;
 
-    public AddressServiceImpl(UserRepository userRepository, AddressRepository addressRepository, ModelMapper modelMapper) {
+    public AddressServiceImpl(UserRepository userRepository,
+                              AddressRepository addressRepository,
+                              ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.modelMapper = modelMapper;
@@ -31,42 +32,45 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<AddressDTO> findAll() {
-        return addressRepository.findAll().stream().map(address -> modelMapper.map(address, AddressDTO.class)).collect(Collectors.toList());
+        return addressRepository.findAll().stream()
+                .map(modelMapper::mapToAddressDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public AddressDTO findById(Long id) {
-        return addressRepository.findById(id).map(address -> modelMapper.map(address, AddressDTO.class)).orElseThrow(EntityNotFoundException::new);
+        AddressEntity address = addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
+        return modelMapper.mapToAddressDTO(address);
     }
 
     @Override
     public AddressDTO updateAddress(Long addressId, UpdateAddressDTO addressDTO) {
-        AddressEntity addressEntity = addressRepository.findById(addressId).orElseThrow(EntityNotFoundException::new);
-        modelMapper.map(addressDTO, addressEntity);
-        return modelMapper.map(addressRepository.save(addressEntity), AddressDTO.class);
+        AddressEntity addressEntity = addressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + addressId));
+
+        modelMapper.updateAddressEntity(addressDTO, addressEntity);
+        AddressEntity updatedAddress = addressRepository.save(addressEntity);
+        return modelMapper.mapToAddressDTO(updatedAddress);
     }
 
     @Override
     public void deleteAddress(Long addressId) {
-        AddressEntity addressEntity = addressRepository.findById(addressId).orElseThrow(EntityNotFoundException::new);
+        AddressEntity addressEntity = addressRepository.findById(addressId)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + addressId));
         addressRepository.delete(addressEntity);
     }
 
     @Transactional
     @Override
     public AddressDTO createAddress(CreateAddressDTO addressDTO) {
-        Long userId = addressDTO.getUserId();
-        UserEntity user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        AddressEntity address = AddressEntity.builder()
-                .street(addressDTO.getStreet())
-                .city(addressDTO.getCity())
-                .state(addressDTO.getState())
-                .postalCode(addressDTO.getPostalCode())
-                .country(addressDTO.getCountry())
-                .isPrimary(addressDTO.getIsPrimary())
-                .user(user)
-                .build();
-        return modelMapper.map(addressRepository.save(addressRepository.save(address)), AddressDTO.class);
+        UserEntity user = userRepository.findById(addressDTO.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + addressDTO.getUserId()));
 
+        AddressEntity address = modelMapper.mapToAddressEntity(addressDTO);
+        address.setUser(user);
+
+        AddressEntity savedAddress = addressRepository.save(address);
+        return modelMapper.mapToAddressDTO(savedAddress);
     }
 }

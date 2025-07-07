@@ -4,10 +4,11 @@ import com.tushar.shopcart.dto.category.CategoryDTO;
 import com.tushar.shopcart.dto.category.CreateCategoryDTO;
 import com.tushar.shopcart.dto.category.UpdateCategoryDTO;
 import com.tushar.shopcart.entity.CategoryEntity;
+import com.tushar.shopcart.exception.DuplicateResourceException;
 import com.tushar.shopcart.repository.CategoryRepository;
 import com.tushar.shopcart.service.CategoryService;
+import com.tushar.shopcart.utils.ModelMapper;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,35 +24,48 @@ public class CategoryServiceImpl implements CategoryService {
         this.modelMapper = modelMapper;
     }
 
-
     @Override
-    public CategoryDTO createCategory(CreateCategoryDTO category) {
-        CategoryEntity categoryEntity = modelMapper.map(category, CategoryEntity.class);
-        return modelMapper.map(categoryRepository.save(categoryEntity), CategoryDTO.class);
+    public CategoryDTO createCategory(CreateCategoryDTO categoryDTO) {
+        // Check if category already exists
+        if (categoryRepository.existsByName(categoryDTO.getName())) {
+            throw new DuplicateResourceException("Category already exists with name: " + categoryDTO.getName());
+        }
+
+        CategoryEntity categoryEntity = modelMapper.mapToCategoryEntity(categoryDTO);
+        CategoryEntity savedCategory = categoryRepository.save(categoryEntity);
+        return modelMapper.mapToCategoryDTO(savedCategory);
     }
 
     @Override
     public CategoryDTO updateCategory(Long id, UpdateCategoryDTO categoryDTO) {
-        CategoryEntity categoryToUpdate = categoryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        modelMapper.map(categoryDTO, categoryToUpdate);
-        return modelMapper.map(categoryRepository.save(categoryToUpdate), CategoryDTO.class);
+        CategoryEntity categoryEntity = categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + id));
+
+        modelMapper.updateCategoryEntity(categoryDTO, categoryEntity);
+        CategoryEntity updatedCategory = categoryRepository.save(categoryEntity);
+        return modelMapper.mapToCategoryDTO(updatedCategory);
     }
 
     @Override
     public void deleteCategory(Long id) {
-        CategoryEntity categoryToDelete = categoryRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        categoryToDelete.setIsActive(false);
-        categoryRepository.save(categoryToDelete);
+        CategoryEntity categoryEntity = categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + id));
+
+        categoryEntity.setIsActive(false);
+        categoryRepository.save(categoryEntity);
     }
 
     @Override
     public List<CategoryDTO> findAll() {
-        return categoryRepository.findAll().stream().map(category -> modelMapper.map(category, CategoryDTO.class)).collect(Collectors.toList());
+        return categoryRepository.findAll().stream()
+                .map(modelMapper::mapToCategoryDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public CategoryDTO findByName(String name) {
-        CategoryEntity categoryEntity = categoryRepository.findByName(name).orElseThrow(EntityNotFoundException::new);
-        return modelMapper.map(categoryEntity, CategoryDTO.class);
+        CategoryEntity categoryEntity = categoryRepository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with name: " + name));
+        return modelMapper.mapToCategoryDTO(categoryEntity);
     }
 }

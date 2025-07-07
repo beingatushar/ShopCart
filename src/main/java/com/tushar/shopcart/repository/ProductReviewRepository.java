@@ -11,10 +11,10 @@ import java.util.List;
 public interface ProductReviewRepository extends JpaRepository<ProductReviewEntity, Long> {
 
     @Query("SELECT pr FROM ProductReviewEntity pr WHERE pr.user.id = :userId")
-    List<ProductReviewEntity> getProductReviewsByUserId(Long userId);
+    List<ProductReviewEntity> findByUserId(Long userId);
 
     @Query("SELECT pr FROM ProductReviewEntity pr WHERE pr.product.id = :productId")
-    List<ProductReviewEntity> getProductReviewsByProductId(Long productId);
+    List<ProductReviewEntity> findByProductId(Long productId);
 
-    boolean existsById(Long id);
+    boolean existsById(Long productReviewId);
 }
