@@ -15,12 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class DiscountEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class DiscountEntity extends BaseEntity{
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -52,9 +47,6 @@ public class DiscountEntity {
     @Column(nullable = false)
     private Boolean appliesToAllProducts = false;
 
-    @Version
-    private Long version;
-
     @ManyToMany
     @JoinTable(
             name = "discount_applicable_products",
@@ -72,9 +64,6 @@ public class DiscountEntity {
     @Column(nullable = false)
     private Integer minOrderAmount;
 
-    @Column(nullable = false)
-    private Instant createdAt;
-
     public enum DiscountType {
         PERCENTAGE, FIXED_AMOUNT, FREE_SHIPPING
     }
@@ -87,12 +76,7 @@ public class DiscountEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-class CouponRedemptionEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+class CouponRedemptionEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id", nullable = false)
     private DiscountEntity discount;
@@ -107,7 +91,4 @@ class CouponRedemptionEntity {
 
     @Column(nullable = false)
     private Instant redemptionDate;
-
-    @Version
-    private Long version;
 }

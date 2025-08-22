@@ -17,12 +17,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class PaymentEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class PaymentEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
@@ -46,12 +41,4 @@ public class PaymentEntity {
 
     @Column(nullable = false)
     private Instant paymentDate;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @Version
-    private Long version;
-
 }

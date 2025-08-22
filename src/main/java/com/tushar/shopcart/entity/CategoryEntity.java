@@ -17,12 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class CategoryEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class CategoryEntity extends BaseEntity {
     @Column(nullable = false, unique = true, length = 100)
     private String name;
 
@@ -49,15 +44,5 @@ public class CategoryEntity {
     @Column(nullable = false)
     @Builder.Default
     private Boolean isActive = true;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    @Version
-    private Long version;
 }
 

@@ -14,12 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-class PaymentMethodEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+class PaymentMethodEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
@@ -40,15 +35,9 @@ class PaymentMethodEntity {
     @Column(nullable = false)
     private Boolean isDefault = false;
 
-    @Column(nullable = false)
-    private Instant createdAt;
-
     @Column
     private Instant expiresAt;
 
     @Column(nullable = false)
     private Boolean isActive = true;
-
-    @Version
-    private Long version;
 }
