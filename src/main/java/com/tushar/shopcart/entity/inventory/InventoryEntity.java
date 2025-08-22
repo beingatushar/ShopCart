@@ -1,11 +1,10 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.inventory;
 
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
 import com.tushar.shopcart.enums.inventory.InventoryChangeType;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "inventory")
@@ -14,7 +13,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InventoryEntity extends BaseEntity{
+public class InventoryEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, unique = true)
     private ProductEntity product;
@@ -39,7 +38,7 @@ public class InventoryEntity extends BaseEntity{
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class InventoryHistoryEntity extends BaseEntity{
+class InventoryHistoryEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;

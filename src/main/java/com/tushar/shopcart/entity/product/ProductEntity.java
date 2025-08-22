@@ -1,14 +1,16 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.product;
 
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.brand.BrandEntity;
+import com.tushar.shopcart.entity.category.CategoryEntity;
+import com.tushar.shopcart.entity.product.attribute.ProductAttributeEntity;
+import com.tushar.shopcart.entity.product.image.ProductImageEntity;
+import com.tushar.shopcart.entity.product.review.ProductReviewEntity;
 import com.tushar.shopcart.enums.product.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.List;
 
 @Entity
@@ -18,7 +20,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductEntity extends BaseEntity{
+public class ProductEntity extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String name;
 

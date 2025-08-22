@@ -1,12 +1,9 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.user.address;
 
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "addresses")
@@ -15,7 +12,7 @@ import java.time.Instant;
 @Builder
 @Setter
 @Getter
-public class AddressEntity extends BaseEntity{
+public class AddressEntity extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String street;
 

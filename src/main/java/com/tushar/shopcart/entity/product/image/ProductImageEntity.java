@@ -1,14 +1,11 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.product.image;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "product_images")
@@ -17,7 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductImageEntity extends BaseEntity{
+public class ProductImageEntity extends BaseEntity {
     @Column(nullable = false)
     private String imageUrl;
 

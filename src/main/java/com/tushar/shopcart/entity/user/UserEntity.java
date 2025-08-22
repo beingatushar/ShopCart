@@ -1,14 +1,11 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.user;
 
+import com.tushar.shopcart.entity.BaseEntity;
 import com.tushar.shopcart.enums.user.UserRole;
 import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity extends BaseEntity{
+public class UserEntity extends BaseEntity {
 
     @Column(nullable = false, length = 50)
     private String username;

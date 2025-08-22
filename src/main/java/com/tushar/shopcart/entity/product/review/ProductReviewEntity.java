@@ -1,13 +1,12 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.product.review;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
+import com.tushar.shopcart.entity.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "product_reviews")
@@ -17,7 +16,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class ProductReviewEntity extends BaseEntity{
+public class ProductReviewEntity extends BaseEntity {
     @Column(nullable = false, length = 1000)
     private String comment;
 

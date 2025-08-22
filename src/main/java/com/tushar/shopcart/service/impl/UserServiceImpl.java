@@ -3,7 +3,7 @@ package com.tushar.shopcart.service.impl;
 import com.tushar.shopcart.dto.user.CreateUserDTO;
 import com.tushar.shopcart.dto.user.UpdateUserDTO;
 import com.tushar.shopcart.dto.user.UserDTO;
-import com.tushar.shopcart.entity.UserEntity;
+import com.tushar.shopcart.entity.user.UserEntity;
 import com.tushar.shopcart.enums.user.UserStatus;
 import com.tushar.shopcart.exception.DuplicateResourceException;
 import com.tushar.shopcart.repository.UserRepository;

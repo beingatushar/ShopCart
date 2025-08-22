@@ -1,11 +1,11 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.payment;
 
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.order.OrderEntity;
 import com.tushar.shopcart.enums.payment.PaymentMethodType;
 import com.tushar.shopcart.enums.payment.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -17,7 +17,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentEntity extends BaseEntity{
+public class PaymentEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;

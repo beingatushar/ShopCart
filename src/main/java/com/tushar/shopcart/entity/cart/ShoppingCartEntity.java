@@ -1,13 +1,12 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.cart;
 
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
+import com.tushar.shopcart.entity.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ShoppingCartEntity extends BaseEntity{
+public class ShoppingCartEntity extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
@@ -65,7 +64,7 @@ public class ShoppingCartEntity extends BaseEntity{
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class CartItemEntity extends BaseEntity{
+class CartItemEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", nullable = false)
     private ShoppingCartEntity cart;

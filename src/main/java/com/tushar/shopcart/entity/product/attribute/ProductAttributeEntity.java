@@ -1,22 +1,19 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.product.attribute;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "product_attributes")
-@Setter 
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductAttributeEntity extends BaseEntity{
+public class ProductAttributeEntity extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String name;
 

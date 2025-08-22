@@ -1,6 +1,6 @@
 package com.tushar.shopcart.repository;
 
-import com.tushar.shopcart.entity.ProductImageEntity;
+import com.tushar.shopcart.entity.product.image.ProductImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

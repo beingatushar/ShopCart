@@ -1,9 +1,10 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.payment;
 
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.user.UserEntity;
 import com.tushar.shopcart.enums.payment.PaymentMethodType;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 

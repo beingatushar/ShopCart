@@ -22,7 +22,14 @@ import com.tushar.shopcart.dto.product.review.UpdateProductReviewDTO;
 import com.tushar.shopcart.dto.user.CreateUserDTO;
 import com.tushar.shopcart.dto.user.UpdateUserDTO;
 import com.tushar.shopcart.dto.user.UserDTO;
-import com.tushar.shopcart.entity.*;
+import com.tushar.shopcart.entity.brand.BrandEntity;
+import com.tushar.shopcart.entity.category.CategoryEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
+import com.tushar.shopcart.entity.product.attribute.ProductAttributeEntity;
+import com.tushar.shopcart.entity.product.image.ProductImageEntity;
+import com.tushar.shopcart.entity.product.review.ProductReviewEntity;
+import com.tushar.shopcart.entity.user.UserEntity;
+import com.tushar.shopcart.entity.user.address.AddressEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

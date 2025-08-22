@@ -3,7 +3,7 @@ package com.tushar.shopcart.service.impl;
 import com.tushar.shopcart.dto.category.CategoryDTO;
 import com.tushar.shopcart.dto.category.CreateCategoryDTO;
 import com.tushar.shopcart.dto.category.UpdateCategoryDTO;
-import com.tushar.shopcart.entity.CategoryEntity;
+import com.tushar.shopcart.entity.category.CategoryEntity;
 import com.tushar.shopcart.exception.DuplicateResourceException;
 import com.tushar.shopcart.repository.CategoryRepository;
 import com.tushar.shopcart.service.CategoryService;

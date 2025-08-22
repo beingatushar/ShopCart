@@ -1,8 +1,12 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.discount;
 
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.category.CategoryEntity;
+import com.tushar.shopcart.entity.order.OrderEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
+import com.tushar.shopcart.entity.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -15,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DiscountEntity extends BaseEntity{
+public class DiscountEntity extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -76,7 +80,7 @@ public class DiscountEntity extends BaseEntity{
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class CouponRedemptionEntity extends BaseEntity{
+class CouponRedemptionEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discount_id", nullable = false)
     private DiscountEntity discount;

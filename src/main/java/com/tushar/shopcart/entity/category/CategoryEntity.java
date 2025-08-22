@@ -1,13 +1,11 @@
-package com.tushar.shopcart.entity;
+package com.tushar.shopcart.entity.category;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.tushar.shopcart.entity.BaseEntity;
+import com.tushar.shopcart.entity.product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
 import java.util.List;
 
 @Entity
