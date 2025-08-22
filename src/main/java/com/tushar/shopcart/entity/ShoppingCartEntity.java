@@ -1,10 +1,7 @@
 package com.tushar.shopcart.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,15 +13,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "shopping_carts")
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class ShoppingCartEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ShoppingCartEntity extends BaseEntity{
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
@@ -49,16 +43,6 @@ public class ShoppingCartEntity {
     @Column(nullable = false)
     private Integer itemCount = 0;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    @Version
-    private Long version;
-
     public void calculateTotals() {
         this.subtotal = items.stream()
                 .map(CartItemEntity::getTotalPrice)
@@ -76,16 +60,12 @@ public class ShoppingCartEntity {
 
 @Entity
 @Table(name = "cart_items")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-class CartItemEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+class CartItemEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", nullable = false)
     private ShoppingCartEntity cart;
@@ -108,16 +88,6 @@ class CartItemEntity {
 
     @Column(length = 50)
     private String selectedSize;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    @Version
-    private Long version;
 
     @PrePersist
     @PreUpdate

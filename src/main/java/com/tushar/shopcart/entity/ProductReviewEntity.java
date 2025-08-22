@@ -2,10 +2,7 @@ package com.tushar.shopcart.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,16 +11,13 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "product_reviews")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class ProductReviewEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class ProductReviewEntity extends BaseEntity{
     @Column(nullable = false, length = 1000)
     private String comment;
 
@@ -39,16 +33,6 @@ public class ProductReviewEntity {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private UserEntity user;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    @Version
-    private Long version;
 
 //    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 //    private List<ReviewHelpfulVoteEntity> helpfulVotes = new ArrayList<>();

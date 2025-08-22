@@ -3,10 +3,7 @@ package com.tushar.shopcart.entity;
 import com.tushar.shopcart.enums.user.UserRole;
 import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,15 +18,12 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserEntity extends BaseEntity{
 
     @Column(nullable = false, length = 50)
     private String username;
@@ -54,14 +48,4 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Set<UserRole> roles = new HashSet<>();
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    @Version
-    private Long version;
 }

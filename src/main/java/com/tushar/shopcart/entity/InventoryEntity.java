@@ -14,12 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class InventoryEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class InventoryEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, unique = true)
     private ProductEntity product;
@@ -35,12 +30,6 @@ public class InventoryEntity {
 
     @Column(nullable = false)
     private Integer minimumStockLevel = 10;
-
-    @Column(nullable = false)
-    private Instant lastStockUpdate;
-
-    @Version
-    private Long version;
 }
 
 @Entity
@@ -50,12 +39,7 @@ public class InventoryEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-class InventoryHistoryEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+class InventoryHistoryEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
@@ -71,15 +55,5 @@ class InventoryHistoryEntity {
     private String reason;
 
     @Column(nullable = false)
-    private String referenceId; // Could be order ID, adjustment ID, etc.
-
-    @Column(nullable = false)
-    private Instant changeDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "changed_by_user_id")
-    private UserEntity changedBy;
-
-    @Version
-    private Long version;
+    private String referenceId;
 }

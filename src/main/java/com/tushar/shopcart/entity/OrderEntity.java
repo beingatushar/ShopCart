@@ -18,12 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-public class OrderEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class OrderEntity extends BaseEntity{
     @Column(nullable = false, unique = true, length = 20)
     private String orderNumber;
 
@@ -69,16 +64,6 @@ public class OrderEntity {
 
     @Column(length = 500)
     private String adminNotes;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    @Version
-    private Long version;
 }
 
 @Entity
@@ -88,12 +73,7 @@ public class OrderEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-class OrderItemEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+class OrderItemEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
@@ -119,9 +99,6 @@ class OrderItemEntity {
 
     @Column(length = 100)
     private String productNameAtPurchase; // Snapshot of product name at time of order
-
-    @Version
-    private Long version;
 }
 
 @Entity
@@ -131,12 +108,7 @@ class OrderItemEntity {
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AuditingEntityListener.class)
-class OrderStatusHistoryEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+class OrderStatusHistoryEntity extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
@@ -148,13 +120,7 @@ class OrderStatusHistoryEntity {
     @Column(length = 500)
     private String notes;
 
-    @Column(nullable = false)
-    private Instant createdAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "changed_by_user_id")
     private UserEntity changedBy;
-
-    @Version
-    private Long version;
 }
