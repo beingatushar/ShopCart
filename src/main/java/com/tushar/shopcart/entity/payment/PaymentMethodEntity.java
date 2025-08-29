@@ -6,8 +6,6 @@ import com.tushar.shopcart.enums.payment.PaymentMethodType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
-
 @Entity
 @Table(name = "payment_methods")
 @Getter
@@ -15,7 +13,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class PaymentMethodEntity extends BaseEntity {
+public class PaymentMethodEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
@@ -27,18 +25,14 @@ class PaymentMethodEntity extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String displayName;
 
-    @Column(length = 100)
-    private String cardLastFour; // For card payments
-
-    @Column(length = 20)
-    private String cardType; // VISA, MASTERCARD, etc.
-
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isDefault = false;
 
-    @Column
-    private Instant expiresAt;
-
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
+
+    @OneToOne(mappedBy = "paymentMethod", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CardPaymentDetailsEntity cardDetails;
 }

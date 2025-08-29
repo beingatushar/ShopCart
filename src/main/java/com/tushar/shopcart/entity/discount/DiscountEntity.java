@@ -1,9 +1,7 @@
 package com.tushar.shopcart.entity.discount;
 
 import com.tushar.shopcart.entity.BaseEntity;
-import com.tushar.shopcart.entity.category.CategoryEntity;
 import com.tushar.shopcart.entity.order.OrderEntity;
-import com.tushar.shopcart.entity.product.ProductEntity;
 import com.tushar.shopcart.entity.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,24 +44,11 @@ public class DiscountEntity extends BaseEntity {
     private Integer currentUses = 0;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isActive = true;
 
-    @Column(nullable = false)
-    private Boolean appliesToAllProducts = false;
-
-    @ManyToMany
-    @JoinTable(
-            name = "discount_applicable_products",
-            joinColumns = @JoinColumn(name = "discount_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<ProductEntity> applicableProducts;
-
-    @ManyToMany
-    @JoinTable(
-            name = "discount_applicable_categories",
-            joinColumns = @JoinColumn(name = "discount_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<CategoryEntity> applicableCategories;
+    @OneToMany(mappedBy = "discount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiscountRuleEntity> rules;
 
     @Column(nullable = false)
     private Integer minOrderAmount;

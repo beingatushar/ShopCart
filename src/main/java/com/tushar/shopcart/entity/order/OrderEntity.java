@@ -3,7 +3,6 @@ package com.tushar.shopcart.entity.order;
 import com.tushar.shopcart.entity.BaseEntity;
 import com.tushar.shopcart.entity.order.item.OrderItemEntity;
 import com.tushar.shopcart.entity.user.UserEntity;
-import com.tushar.shopcart.entity.user.address.AddressEntity;
 import com.tushar.shopcart.enums.order.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,13 +25,13 @@ public class OrderEntity extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping_address_id", nullable = false)
-    private AddressEntity shippingAddress;
+    private OrderAddressEntity shippingAddress;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "billing_address_id")
-    private AddressEntity billingAddress;
+    private OrderAddressEntity billingAddress;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> items;
@@ -52,10 +51,4 @@ public class OrderEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private OrderStatus status;
-
-    @Column(length = 500)
-    private String customerNotes;
-
-    @Column(length = 500)
-    private String adminNotes;
 }
