@@ -41,13 +41,13 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "brand_id")
     private BrandEntity brand;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImageEntity> images;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductAttributeEntity> attributes;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductReviewEntity> reviews;
 
     @Enumerated(EnumType.STRING)
@@ -55,5 +55,3 @@ public class ProductEntity extends BaseEntity {
     @Builder.Default
     private ProductStatus status = ProductStatus.ACTIVE;
 }
-
-

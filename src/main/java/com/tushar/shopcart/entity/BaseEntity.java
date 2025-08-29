@@ -20,15 +20,19 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Instant createdAt;
 
     @LastModifiedDate
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Instant updatedAt;
 
     @Version
     @Column(nullable = false)
     private Integer version;
+
+    @Column(nullable = false)
+    private Boolean isDeleted = false;
 }

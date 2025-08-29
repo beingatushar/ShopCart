@@ -33,6 +33,7 @@ public class ProductReviewEntity extends BaseEntity {
     @JsonBackReference
     private UserEntity user;
 
+
 //    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
 //    private List<ReviewHelpfulVoteEntity> helpfulVotes = new ArrayList<>();
 }

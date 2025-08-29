@@ -6,15 +6,10 @@ import com.tushar.shopcart.enums.user.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,16 +17,16 @@ import java.util.Set;
 @Builder
 public class UserEntity extends BaseEntity {
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(length = 15)
+    @Column(length = 10)
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
@@ -39,10 +34,9 @@ public class UserEntity extends BaseEntity {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role", nullable = false)
+    //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private Set<UserRole> roles = new HashSet<>();
+    private List<UserRole> roles = List.of(UserRole.CUSTOMER);
 }

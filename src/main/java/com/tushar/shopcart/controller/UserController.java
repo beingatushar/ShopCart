@@ -1,11 +1,9 @@
 package com.tushar.shopcart.controller;
 
-import com.tushar.shopcart.dto.user.CreateUserDTO;
-import com.tushar.shopcart.dto.user.UpdateUserDTO;
-import com.tushar.shopcart.dto.user.UserDTO;
+import com.tushar.shopcart.entity.user.UserEntity;
 import com.tushar.shopcart.service.UserService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,39 +12,47 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@Tag(name = "User Management", description = "Endpoints for managing users")
-public class UserController {
-    final
-    UserService userService;
+public class UserController implements BaseController<UserEntity, Long> {
 
+    private final UserService userService;
+
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid CreateUserDTO user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> findUserById(@PathVariable Long userId) {
-        return new ResponseEntity<>(userService.findById(userId), HttpStatus.OK);
-    }
-
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAllUsers() {
-        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
+    public ResponseEntity<List<UserEntity>> getAll() {
+        List<UserEntity> users = userService.getAll();
+        return ResponseEntity.ok(users);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @Override
+    @PostMapping
+    public ResponseEntity<UserEntity> create(@Valid @RequestBody UserEntity user) {
+        UserEntity createdUser = userService.create(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody @Valid UpdateUserDTO user) {
-        return new ResponseEntity<>(userService.updateUser(userId, user), HttpStatus.OK);
+    @Override
+    @PutMapping("/{id}")
+    public ResponseEntity<UserEntity> update(@PathVariable Long id,
+                                             @Valid @RequestBody UserEntity user) {
+        UserEntity updatedUser = userService.update(id, user);
+        return ResponseEntity.ok(updatedUser);
     }
 
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @GetMapping("/{id}")
+    public ResponseEntity<UserEntity> get(@PathVariable Long id) {
+        UserEntity user = userService.get(id);
+        return ResponseEntity.ok(user);
+    }
 }

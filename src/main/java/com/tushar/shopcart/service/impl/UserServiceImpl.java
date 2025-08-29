@@ -1,116 +1,72 @@
 package com.tushar.shopcart.service.impl;
 
-import com.tushar.shopcart.dto.user.CreateUserDTO;
-import com.tushar.shopcart.dto.user.UpdateUserDTO;
-import com.tushar.shopcart.dto.user.UserDTO;
 import com.tushar.shopcart.entity.user.UserEntity;
-import com.tushar.shopcart.enums.user.UserStatus;
-import com.tushar.shopcart.exception.DuplicateResourceException;
 import com.tushar.shopcart.repository.UserRepository;
 import com.tushar.shopcart.service.UserService;
-import com.tushar.shopcart.utils.ModelMapper;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    private final ModelMapper modelMapper;
     private final UserRepository userRepository;
 
-    public UserServiceImpl(ModelMapper modelMapper,
-                           UserRepository userRepository) {
-        this.modelMapper = modelMapper;
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    @Transactional
-    public UserDTO createUser(CreateUserDTO userDTO) {
-        // Check if username exists
-        userRepository.findByUsername(userDTO.getUsername())
-                .ifPresent(u -> {
-                    throw new DuplicateResourceException("Username '" + userDTO.getUsername() + "' already exists");
-                });
-
-        // Check if email exists
-        userRepository.findByEmail(userDTO.getEmail())
-                .ifPresent(u -> {
-                    throw new DuplicateResourceException("Email '" + userDTO.getEmail() + "' already exists");
-                });
-
-        UserEntity userEntity = modelMapper.mapToUserEntity(userDTO);
-        UserEntity savedUser = userRepository.save(userEntity);
-        return modelMapper.mapToUserDTO(savedUser);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public UserDTO findById(Long userId) {
-        return modelMapper.mapToUserDTO(
-                userRepository.findById(userId)
-                        .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId))
-        );
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public UserDTO findUserByEmail(String email) {
-        return modelMapper.mapToUserDTO(
-                userRepository.findByEmail(email)
-                        .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email))
-        );
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserDTO> findAllUsers() {
-        return userRepository.findAll().stream()
-                .map(modelMapper::mapToUserDTO)
-                .collect(Collectors.toList());
+    public List<UserEntity> getAll() {
+        log.debug("Fetching all users");
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional
-    public UserDTO updateUser(Long userId, UpdateUserDTO userDTO) {
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+    public UserEntity create(UserEntity entity) {
+        log.debug("Creating new user: {}", entity.getUsername());
+        return userRepository.save(entity);
+    }
 
-        // Check if new username is taken by another user
-        if (userDTO.getUsername() != null && !user.getUsername().equals(userDTO.getUsername())) {
-            userRepository.findByUsername(userDTO.getUsername())
-                    .ifPresent(u -> {
-                        throw new DuplicateResourceException("Username '" + userDTO.getUsername() + "' already exists");
-                    });
-            user.setUsername(userDTO.getUsername());
+    @Override
+    @Transactional
+    public UserEntity update(Long id, UserEntity user) {
+        log.debug("Updating user with ID: {}", id);
+
+        // Check if user exists first
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User with ID: " + id + " not found");
         }
 
-        // Check if new email is taken by another user
-        if (userDTO.getEmail() != null && !user.getEmail().equals(userDTO.getEmail())) {
-            userRepository.findByEmail(userDTO.getEmail())
-                    .ifPresent(u -> {
-                        throw new DuplicateResourceException("Email '" + userDTO.getEmail() + "' already exists");
-                    });
-            user.setEmail(userDTO.getEmail());
-        }
-
-        // Update other fields
-        modelMapper.updateUserEntity(userDTO, user);
-
-        UserEntity updatedUser = userRepository.save(user);
-        return modelMapper.mapToUserDTO(updatedUser);
+        user.setId(id);
+        return userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void deleteUser(Long userId) {
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-        user.setStatus(UserStatus.DELETED);
-        userRepository.save(user);
+    public void delete(Long id) {
+        log.debug("Deleting user with ID: {}", id);
+
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User with ID: " + id + " not found");
+        }
+
+        userRepository.deleteById(id);
+        log.info("Successfully deleted user with ID: {}", id);
+    }
+
+    @Override
+    public UserEntity get(Long id) {
+        log.debug("Fetching user with ID: {}", id);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with ID: " + id + " not found"));
     }
 }
